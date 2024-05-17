@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<users>
+  <user>
+    <id>3007</id>
+    <firstname>german</firstname>
+    <lastname>ramses</lastname>
+    <birtplace>Morelia</birtplace>
+    <birthday>19-07-2021</birthday>
+    <address>fgh</address>
+    <phone>4323224334</phone>
+    <job>alba&#xF1;il</job>
+    <state>1</state>
+  </user>
+  
+</users>
