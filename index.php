@@ -3,24 +3,28 @@ include("conexion.php");
 ?>
 <!DOCTYPE html>
 <html lang="es">
-<head>
+	<head>
 
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Datos de empleados</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Datos de empleados</title>
+		
+		<!-- Bootstrap -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/style_nav.css" rel="stylesheet">
+		
+		<style>
+			.content {
+				margin-top: 80px;
+			}
+		</style>
 
-	<!-- Bootstrap -->
-	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/style_nav.css" rel="stylesheet">
-
-	<style>
-		.content {
-			margin-top: 80px;
-		}
-	</style>
-
-</head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" defer></script>
+		<!-- <script src="js/bootstrap.min.js" defer></script> -->
+		<script src="js/typescript/show-employess.js" defer></script>
+		
+	</head>
 <body>
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<?php include('nav.php');?>
@@ -30,13 +34,17 @@ include("conexion.php");
 			<h2>Lista de empleados</h2>
 			<hr />
 
-
+			
 						 <div class="alert alert-success alert-dismissable" style="display:none;"> </div>
 
-						<!--<div class="alert alert-danger alert-dismissable" style="display:none;"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Error, no se pudo eliminar los datos.</div>
+						<!--<div 
+						class="alert alert-danger alert-dismissable" 
+						style="display:none;">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						 	Error, no se pudo eliminar los datos.
+						</div>-->
 
--->
-
+<!-- TODO: filtrar los datos con el fetch de show-employess.ts -->
 			<form class="form-inline" method="get">
 				<div class="form-group">
 					<select name="filter" class="form-control" onchange="form.submit()">
@@ -52,7 +60,7 @@ include("conexion.php");
 			<div class="table-responsive">
 			<table class="table table-striped table-hover">
 				<tr>
-                    <th>No</th>
+					<th>No</th>
 					<th>Código</th>
 					<th>Nombre</th>
                     <th>birtplace</th>
@@ -67,83 +75,45 @@ include("conexion.php");
 				if($filter){
 					$sql =  "SELECT * FROM tbl_employees WHERE state=$filter ORDER BY id ASC";
 					$query = $conn -> prepare($sql);
-          $query -> execute();
-          $results = $query -> fetchAll(PDO::FETCH_OBJ);
+					$query -> execute();
+					$results = $query -> fetchAll(PDO::FETCH_OBJ);
 				}else{
 					$sql =  "SELECT * FROM tbl_employees ORDER BY id ASC";
 					$query = $conn -> prepare($sql);
-          $query -> execute();
-          $results = $query -> fetchAll(PDO::FETCH_OBJ);
-				}
-				if($query->rowCount() == 0){
-					echo '<tr><td colspan="8">No hay datos.</td></tr>';
-				}else{
-					$no = 1;
-					foreach($results as $row){
-						echo '
-
-						<tr>
-							<td>'.$no.'</td>
-							<td>'.$row -> id.'</td>
-							<td> '.$row -> firstname.' '.$row -> lastname.'</td>
-                            <td>'.$row -> birtplace.'</td>
-                            <td>'.$row -> birthday.'</td>
-							<td>'.$row -> phone.'</td>
-                            <td>'.$row -> job.'</td>
-							<td>';
-							if($row -> state == '1'){
-								echo '<span class="label label-success">Fijo</span>';
-							}
-                            else if ($row -> state == '2' ){
-								echo '<span class="label label-info">Contratado</span>';
-							}
-                            else if ($row -> state == '3' ){
-								echo '<span class="label label-warning">Outsourcing</span>';
-							}
-						echo '
-							</td>
-							<td>
-								<a  class="btn btn-danger btn-sm  delete" data ='.$row -> id.'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-							</td>
-						</tr>
-
-						';
-						$no++;
-					}
+					$query -> execute();
+					$results = $query -> fetchAll(PDO::FETCH_OBJ);
 				}
 				?>
 			</table>
 			</div>
 		</div>
 	</div><center>
-	<p>&copy; Sistemas Web <?php echo date("Y");?></p>
-		</center>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
+		<p>&copy; Sistemas Web <?php echo date("Y");?></p>
+	</center>
 
-
+	
 	<script type="text/javascript">
-$(document).ready(function() {
-    $('.delete').on('click', function(e) {
-        e.preventDefault();
-        var item = $(this).attr('data');
-        var dataString = 'id='+item;
+// 		$(document).ready(function() {
+// 			$('.delete').on('click', function(e) {
+// 				e.preventDefault();
+// 				var item = $(this).attr('data');
+// 				var dataString = 'id='+item;
+				
+// 				var element = this;
+// 				//para eliminar la consulta en el doom y bds
+// 				$.ajax({
+// 					type: "POST",
+// 					url: "delete.php",
+//             data: dataString,
+//             success: function(response) {
 
-			  var element = this;
-//para eliminar la consulta en el doom y bds
-        $.ajax({
-            type: "POST",
-            url: "delete.php",
-            data: dataString,
-            success: function(response) {
-
-                $('.alert-success').empty();
-                $('.alert-success').append(response).fadeIn("slow");
-                $(element).closest("tr").fadeOut();
-            }
-        });
-    });
-});
+//                 $('.alert-success').empty();
+//                 $('.alert-success').append(response).fadeIn("slow");
+//                 $(element).closest("tr").fadeOut();
+//             }
+//         });
+//     });
+// });
 </script>
 </body>
 </html>
