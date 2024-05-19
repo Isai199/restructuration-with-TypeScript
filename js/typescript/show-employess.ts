@@ -1,62 +1,73 @@
-export { }
-
-const table = document.querySelector("table") as HTMLTableElement;
-
-const data = { text: 'Hola' }
-
-type Employes = [{
-    id: string,
-    firstname: string,
-    lastname: string,
-    birtplace: string,
-    birthday: string,
-    phone: string,
-    job: string,
-    state: string,
-}];
-
-type HTMLElement = HTMLTableRowElement | HTMLTableCellElement | HTMLAnchorElement | HTMLSpanElement;
+import { Employes, HTMLElement } from './types';
 
 
-fetch('http://localhost/js-to-ts-proyect/proyecto-web-empleados/php/show-employees.php', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data),
+const table = document.querySelector("table") as HTMLElement;
+const tableBody = document.querySelector("tbody") as HTMLElement;
+const select = document.querySelector('select') as HTMLSelectElement;
 
-       
-}).then(response => {
-    if (!response.ok) {
-        throw new Error("Network response was not ok " + response.statusText);
-    }
-
-    return response.json();
-}).then(data => {
-    showData(data.results);
-}).catch(error => {
-    console.error('There was a problem whith the fetch operation:', error);
+select.addEventListener('change', () => {
+    const seletedNumber = Number(select.value);
+    requestServer(seletedNumber);
 });
 
-let number = 0;
+document.addEventListener('DOMContentLoaded', () => { // TODO: Checar los tipos de eventos para docuemnt
+    requestServer();
+})
+
+function requestServer(filter?:number) {
+    const data = { filter: filter };
+
+
+    fetch('http://localhost/js-to-ts-proyect/proyecto-web-empleados/php/show-employees.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+    
+           
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok " + response.statusText);
+        }
+    
+        return response.json();
+    }).then(data => {
+        showData(data.results);
+    }).catch(error => {
+        console.error('There was a problem whith the fetch operation:', error);
+    });
+}
+
+
+
 
 function showData(employess: Employes) {
-
-    if (!(employess.length > 1)) {
+    let number = 1;
+    const children = document.querySelectorAll('table tr');
+    if (children.length > 0) {
+        for (let i = 1; i < children.length; i++) { // NOTE: se salta el primer <tr>(los titulos de las columnas)
+            children[i].remove();
+        }
+    }
+    
+    if (!(employess.length > 0)) {
         const row = document.createElement('tr') as HTMLElement;
         const cellEmty = document.createElement('td') as HTMLElement;
         cellEmty.setAttribute('colspan', "8");
         cellEmty.textContent = 'No hay datos.';
 
         row.appendChild(cellEmty);
-        table.appendChild(cellEmty);
+        table.appendChild(row);
 
 
     } else {
+
+
         // TODO: ver como crear los elementos html y asignarles valores con iteracciones en lugar de repetir codigo
         for (const employe of employess) {
             const row = document.createElement('tr') as HTMLElement;
-            const cellNumber = document.createElement('td') as HTMLElement;
+            const cellNumber = document.createElement('th') as HTMLElement;
             const cellCode = document.createElement('td') as HTMLElement;
             const cellName = document.createElement('td') as HTMLElement;
             const cellBirtplace = document.createElement('td') as HTMLElement;
@@ -64,12 +75,15 @@ function showData(employess: Employes) {
             const cellPhone = document.createElement('td') as HTMLElement;
             const cellJob = document.createElement('td') as HTMLElement;
             const cellState = document.createElement('td') as HTMLElement;
-    
-            const cellActions = document.createElement('td') as HTMLElement;// TODO: Agregar boton
+            const cellActions = document.createElement('td') as HTMLElement;
+
+            const spanState = document.createElement('span');
+
             
             const anchor = document.createElement('a') as HTMLElement;
-            const span = document.createElement('span') as HTMLElement;
-    
+            const spanAction = document.createElement('span') as HTMLElement;
+            
+            cellNumber.setAttribute('scope', 'row');
             
             cellNumber.textContent = `${number}`;
             cellCode.textContent = employe.id;
@@ -80,23 +94,26 @@ function showData(employess: Employes) {
             cellJob.textContent = employe.job;
     
             if (Number(employe.state) === 1) {
-                cellState .setAttribute('class', 'label label-success');
-                cellState.textContent = "Fijo";
+                spanState.setAttribute('class', 'label label-success');
+                spanState.textContent = "Fijo";
             } else if (Number(employe.state) === 2) {
-                cellState .setAttribute('class', 'label label-info');
-                cellState.textContent = "Contratado";
+                spanState.setAttribute('class', 'label label-info');
+                spanState.textContent = "Contratado";
             } else if (Number(employe.state) === 3) {
-                cellState .setAttribute('class', 'label label-warning');
-                cellState.textContent = "Outsourcing";
+                spanState.setAttribute('class', 'label label-warning');
+                spanState.textContent = "Outsourcing";
             }
+
+            cellState.appendChild(spanState);
     
             anchor.setAttribute('class', 'btn btn-danger btn-sm  delete');
             anchor.setAttribute('data', employe.id);
     
-            span.setAttribute('class', 'glyphicon glyphicon-trash');
-            span.setAttribute('aria-hidden', 'true');
+            spanAction.setAttribute('class', 'glyphicon glyphicon-trash');
+            spanAction.setAttribute('aria-hidden', 'true');
     
-            anchor.appendChild(span);
+            anchor.appendChild(spanAction);
+            cellActions.appendChild(anchor);
     
     
     
@@ -109,10 +126,9 @@ function showData(employess: Employes) {
             row.appendChild(cellJob);
             row.appendChild(cellState);
             row.appendChild(cellActions);
-            row.appendChild(anchor);
             
-    
-            table.appendChild(row);
+            tableBody.appendChild(row);
+            table.appendChild(tableBody);
     
             number++;
         }

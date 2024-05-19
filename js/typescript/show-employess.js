@@ -1,38 +1,56 @@
 "use strict";
 //Object.defineProperty(exports, "__esModule", { value: true });
 var table = document.querySelector("table");
-var data = { text: 'Hola' };
-fetch('http://localhost/js-to-ts-proyect/proyecto-web-empleados/php/show-employees.php', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data),
-}).then(function (response) {
-    if (!response.ok) {
-        throw new Error("Network response was not ok " + response.statusText);
-    }
-    return response.json();
-}).then(function (data) {
-    showData(data.results);
-}).catch(function (error) {
-    console.error('There was a problem whith the fetch operation:', error);
+var tableBody = document.querySelector("tbody");
+var select = document.querySelector('select');
+select.addEventListener('change', function () {
+    var seletedNumber = Number(select.value);
+    requestServer(seletedNumber);
 });
-var number = 0;
+document.addEventListener('DOMContentLoaded', function () {
+    requestServer();
+});
+function requestServer(filter) {
+    var data = { filter: filter };
+    fetch('http://localhost/js-to-ts-proyect/proyecto-web-empleados/php/show-employees.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+    }).then(function (response) {
+        if (!response.ok) {
+            throw new Error("Network response was not ok " + response.statusText);
+        }
+        return response.json();
+    }).then(function (data) {
+        showData(data.results);
+    }).catch(function (error) {
+        console.error('There was a problem whith the fetch operation:', error);
+    });
+}
 function showData(employess) {
-    if (!(employess.length > 1)) {
+    var number = 1;
+    var children = document.querySelectorAll('table tr');
+    if (children.length > 0) {
+        for (var i = 1; i < children.length; i++) { // NOTE: se salta el primer <tr>(los titulos de las columnas)
+            children[i].remove();
+        }
+    }
+    if (!(employess.length > 0)) {
         var row = document.createElement('tr');
         var cellEmty = document.createElement('td');
         cellEmty.setAttribute('colspan', "8");
         cellEmty.textContent = 'No hay datos.';
         row.appendChild(cellEmty);
-        table.appendChild(cellEmty);
+        table.appendChild(row);
     }
     else {
+        // TODO: ver como crear los elementos html y asignarles valores con iteracciones en lugar de repetir codigo
         for (var _i = 0, employess_1 = employess; _i < employess_1.length; _i++) {
             var employe = employess_1[_i];
             var row = document.createElement('tr');
-            var cellNumber = document.createElement('td');
+            var cellNumber = document.createElement('th');
             var cellCode = document.createElement('td');
             var cellName = document.createElement('td');
             var cellBirtplace = document.createElement('td');
@@ -40,9 +58,11 @@ function showData(employess) {
             var cellPhone = document.createElement('td');
             var cellJob = document.createElement('td');
             var cellState = document.createElement('td');
-            var cellActions = document.createElement('td'); // TODO: Agregar boton
+            var cellActions = document.createElement('td');
+            var spanState = document.createElement('span');
             var anchor = document.createElement('a');
-            var span = document.createElement('span');
+            var spanAction = document.createElement('span');
+            cellNumber.setAttribute('scope', 'row');
             cellNumber.textContent = "".concat(number);
             cellCode.textContent = employe.id;
             cellName.textContent = "".concat(employe.firstname, " ").concat(employe.lastname);
@@ -51,22 +71,24 @@ function showData(employess) {
             cellPhone.textContent = employe.phone;
             cellJob.textContent = employe.job;
             if (Number(employe.state) === 1) {
-                cellState.setAttribute('class', 'label label-success');
-                cellState.textContent = "Fijo";
+                spanState.setAttribute('class', 'label label-success');
+                spanState.textContent = "Fijo";
             }
             else if (Number(employe.state) === 2) {
-                cellState.setAttribute('class', 'label label-info');
-                cellState.textContent = "Contratado";
+                spanState.setAttribute('class', 'label label-info');
+                spanState.textContent = "Contratado";
             }
             else if (Number(employe.state) === 3) {
-                cellState.setAttribute('class', 'label label-warning');
-                cellState.textContent = "Outsourcing";
+                spanState.setAttribute('class', 'label label-warning');
+                spanState.textContent = "Outsourcing";
             }
+            cellState.appendChild(spanState);
             anchor.setAttribute('class', 'btn btn-danger btn-sm  delete');
             anchor.setAttribute('data', employe.id);
-            span.setAttribute('class', 'glyphicon glyphicon-trash');
-            span.setAttribute('aria-hidden', 'true');
-            anchor.appendChild(span);
+            spanAction.setAttribute('class', 'glyphicon glyphicon-trash');
+            spanAction.setAttribute('aria-hidden', 'true');
+            anchor.appendChild(spanAction);
+            cellActions.appendChild(anchor);
             row.appendChild(cellNumber);
             row.appendChild(cellCode);
             row.appendChild(cellName);
@@ -76,8 +98,8 @@ function showData(employess) {
             row.appendChild(cellJob);
             row.appendChild(cellState);
             row.appendChild(cellActions);
-            row.appendChild(anchor);
-            table.appendChild(row);
+            tableBody.appendChild(row);
+            table.appendChild(tableBody);
             number++;
         }
     }

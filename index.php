@@ -1,5 +1,5 @@
 <?php
-include("conexion.php");
+include("conexion.php"); // TODO: hacer que mediante un fetch se haga la conexion
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -17,6 +17,11 @@ include("conexion.php");
 		<style>
 			.content {
 				margin-top: 80px;
+			}
+
+			.table-responsive div {
+				display: flex;
+				justify-content: center;
 			}
 		</style>
 
@@ -43,56 +48,46 @@ include("conexion.php");
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 						 	Error, no se pudo eliminar los datos.
 						</div>-->
-
-<!-- TODO: filtrar los datos con el fetch de show-employess.ts -->
-			<form class="form-inline" method="get">
+			<form class="form-inline">
 				<div class="form-group">
-					<select name="filter" class="form-control" onchange="form.submit()">
-						<option value="0">Filtros de datos de empleados</option>
-						<?php $filter = (isset($_GET['filter']) ? strtolower($_GET['filter']) : NULL);  ?>
-						<option value="1" <?php if($filter == 'Tetap'){ echo 'selected'; } ?>>Fijo</option>
-						<option value="2" <?php if($filter == 'Kontrak'){ echo 'selected'; } ?>>Contratado</option>
-                        <option value="3" <?php if($filter == 'Outsourcing'){ echo 'selected'; } ?>>Outsourcing</option>
+					<select>
+						<option>Filtros de datos de empleados</option>
+						<option value="1">Fijo</option>
+						<option value="2">Contratado</option>
+                        <option value="3">Outsourcing</option>
 					</select>
 				</div>
 			</form>
 			<br />
 			<div class="table-responsive">
-			<table class="table table-striped table-hover">
-				<tr>
-					<th>No</th>
-					<th>Código</th>
-					<th>Nombre</th>
-                    <th>birtplace</th>
-                    <th>birthday</th>
-					<th>phone</th>
-					<th>job</th>
-					<th>Estado</th>
-                    <th>Actions</th>
-				</tr>
-				<?php
-				//hacer la consulta mediante pdos a la bse de datos
-				if($filter){
-					$sql =  "SELECT * FROM tbl_employees WHERE state=$filter ORDER BY id ASC";
-					$query = $conn -> prepare($sql);
-					$query -> execute();
-					$results = $query -> fetchAll(PDO::FETCH_OBJ);
-				}else{
-					$sql =  "SELECT * FROM tbl_employees ORDER BY id ASC";
-					$query = $conn -> prepare($sql);
-					$query -> execute();
-					$results = $query -> fetchAll(PDO::FETCH_OBJ);
-				}
-				?>
-			</table>
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th scope="col">No</th>
+							<th scope="col">Código</th>
+							<th scope="col">Nombre</th>
+							<th scope="col">birtplace</th>
+							<th scope="col">birthday</th>
+							<th scope="col">phone</th>
+							<th scope="col">job</th>
+							<th scope="col">Estado</th>
+							<th scope="col">Actions</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<div>
+					<span>&copy; Sistemas Web <?php echo date("Y");?></span>
+				</div>
 			</div>
 		</div>
-	</div><center>
-		<p>&copy; Sistemas Web <?php echo date("Y");?></p>
-	</center>
+	</div>
+
 
 	
 	<script type="text/javascript">
+		
+
 // 		$(document).ready(function() {
 // 			$('.delete').on('click', function(e) {
 // 				e.preventDefault();
