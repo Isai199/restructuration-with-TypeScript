@@ -44,7 +44,7 @@ function createNav() {
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav ">
-                <li id="itemIndex" class="active"><a href="index.php">Lista de empleados</a></li>
+                <li id="itemIndex" class="active"><a href="index.html">Lista de empleados</a></li>
                 <li id="itemAdd"><a href="add.php">Agregar datos</a></li>
             </ul>
         </div><!--/.nav-collapse -->
