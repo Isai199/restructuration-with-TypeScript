@@ -3,28 +3,50 @@
 var table = document.querySelector("table");
 var tableBody = document.querySelector("tbody");
 var select = document.querySelector('select');
+var urlServer = 'http://localhost/js-to-ts-proyect/proyecto-web-empleados/php/';
 select.addEventListener('change', function () {
     var seletedNumber = Number(select.value);
-    requestServer(seletedNumber);
+    fetchData(seletedNumber);
 });
 document.addEventListener('DOMContentLoaded', function () {
-    requestServer();
+    initialize();
 });
-function requestServer(filter) {
+function initialize() {
+    var urlResposne = urlServer + 'connection.php';
+    var jsonResposne = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    };
+    fetch(urlResposne, jsonResposne).then(function (response) {
+        if (!response.ok) {
+            throw new Error("Network response was not ok " + response.statusText);
+        }
+        return response.json();
+    }).then(function () {
+        fetchData();
+    }).catch(function (error) {
+        console.error('There was a problem whith the fetch operation:', error);
+    });
+}
+function fetchData(filter) {
     var data = { filter: filter };
-    fetch('http://localhost/js-to-ts-proyect/proyecto-web-empleados/php/show-employees.php', {
+    var urlResposne = urlServer + 'show-employees.php';
+    var jsonResposne = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data),
-    }).then(function (response) {
+    };
+    fetch(urlResposne, jsonResposne).then(function (response) {
         if (!response.ok) {
             throw new Error("Network response was not ok " + response.statusText);
         }
         return response.json();
     }).then(function (data) {
-        showData(data.results);
+        showData(data.results); // TODO: regresa un error de la base de datos, y no ejecuta esta funcion
     }).catch(function (error) {
         console.error('There was a problem whith the fetch operation:', error);
     });

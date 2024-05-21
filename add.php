@@ -20,11 +20,11 @@ include("conexion.php");
 		}
 	</style>
 
+	<script src="js/typescript/nav.js" defer></script>
+
 
 <body>
-	<nav class="navbar navbar-default navbar-fixed-top">
-		<?php include("nav.php");?>
-	</nav>
+	<nav id="main-nav"></nav>
 	<div class="container">
 		<div class="content">
 			<h2>Datos del empleados &raquo; Agregar datos</h2>

@@ -1,5 +1,5 @@
 <?php 
-    include("../conexion.php");
+    include('./db-connection.php');
     
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -7,7 +7,6 @@
         try {
             $input = file_get_contents('php://input');
             $data = json_decode($input, true);
-            $filter = 'no filter';
             
             
             $sql = "SELECT * FROM tbl_employees";
@@ -27,19 +26,22 @@
 
             $response = [
                 'status' => 'success',
-                'filter' => $filter,
                 'results' => $results,  
             ];
             
             echo json_encode($response);
+            exit;
+            
         } catch (PDOException $e) {
-            echo json_encode(['status' => 'error', 'message' => 'Connection failed']);
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+            exit;
         }
 
 
         
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        exit;
     }
 
 

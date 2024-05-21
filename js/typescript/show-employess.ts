@@ -5,28 +5,51 @@ const table = document.querySelector("table") as HTMLElement;
 const tableBody = document.querySelector("tbody") as HTMLElement;
 const select = document.querySelector('select') as HTMLSelectElement;
 
+const urlServer = 'http://localhost/js-to-ts-proyect/proyecto-web-empleados/php/';
+
 select.addEventListener('change', () => {
     const seletedNumber = Number(select.value);
-    requestServer(seletedNumber);
+    fetchData(seletedNumber);
 });
 
 document.addEventListener('DOMContentLoaded', () => { // TODO: Checar los tipos de eventos para docuemnt
-    requestServer();
-})
+    initialize();
+});
 
-function requestServer(filter?:number) {
+function initialize() {
+    const urlResposne = urlServer + 'connection.php';
+    const jsonResposne = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    };
+    
+    fetch(urlResposne, jsonResposne).then(response => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok " + response.statusText);
+        }
+        
+        return response.json();
+    }).then(() => {
+        fetchData(); 
+    }).catch(error => {
+        console.error('There was a problem whith the fetch operation:', error);
+    });
+}
+
+function fetchData(filter?:number) {
     const data = { filter: filter };
-
-
-    fetch('http://localhost/js-to-ts-proyect/proyecto-web-empleados/php/show-employees.php', {
+    const urlResposne = urlServer + 'show-employees.php';
+    const jsonResposne = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data),
+    }
     
-           
-    }).then(response => {
+    fetch(urlResposne, jsonResposne).then(response => {
         if (!response.ok) {
             throw new Error("Network response was not ok " + response.statusText);
         }
