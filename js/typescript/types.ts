@@ -10,3 +10,9 @@ export type Employes = [{
 }];
 
 export type HTMLElement = HTMLTableRowElement | HTMLTableCellElement | HTMLAnchorElement | HTMLSpanElement | HTMLSelectElement | HTMLTableElement;
+
+export type RequestData = {
+    method: string,
+    headers: { [key: string] : string },
+    body?: { [key: string] : any }
+}

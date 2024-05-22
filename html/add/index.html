@@ -1,6 +1,9 @@
-<?php
+
+<!-- TODO: eliminar los comentario de codigo php -->
+
+<!-- <?php
 include("conexion.php");
-?>
+?> -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,16 +14,17 @@ include("conexion.php");
 	<title>Latihan MySQLi</title>
 
 	<!-- Bootstrap -->
-	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/bootstrap-datepicker.css" rel="stylesheet">
-	<link href="css/style_nav.css" rel="stylesheet">
+	<link href="../../css/bootstrap.min.css" rel="stylesheet">
+	<link href="../../css/bootstrap-datepicker.css" rel="stylesheet">
+	<link href="../../css/style_nav.css" rel="stylesheet">
 	<style>
 		.content {
 			margin-top: 80px;
 		}
 	</style>
 
-	<script src="js/typescript/nav.js" defer></script>
+	<script src="../../js/typescript/nav.js" defer></script>
+	<script src="../../js/typescript/add-employess.js" defer></script> 	
 
 
 <body>
@@ -30,7 +34,7 @@ include("conexion.php");
 			<h2>Datos del empleados &raquo; Agregar datos</h2>
 			<hr />
 
-			<?php
+			<!-- <?php
 					session_start();
 					if(isset($_SESSION['message'])){
 							?>
@@ -41,16 +45,16 @@ include("conexion.php");
 
 							unset($_SESSION['message']);
 					}
-			?>
+			?> -->
 
-			<form class="form-horizontal" action="addInfoXml.php" method="post">
+			<form class="form-horizontal">
 				<div class="form-group">
 					<label class="col-sm-3 control-label">firstname</label>
 					<div class="col-sm-4">
 						<input type="text" name="firstname" class="form-control" placeholder="Nombres" required>
 					</div>
 				</div>
-				<div class="form-group">
+				<!-- <div class="form-group">
 					<label class="col-sm-3 control-label">lastname</label>
 					<div class="col-sm-4">
 						<input type="text" name="lastname" class="form-control" placeholder="Nombres" required>
@@ -97,7 +101,7 @@ include("conexion.php");
 							 <option value="3">Outsourcing</option>
 						</select>
 					</div>
-				</div>
+				</div> -->
 
 				<div class="form-group">
 					<label class="col-sm-3 control-label">&nbsp;</label>
@@ -111,8 +115,8 @@ include("conexion.php");
 	</div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/bootstrap-datepicker.js"></script>
+	<script src="../../js/bootstrap.min.js"></script>
+	<script src="../../js/bootstrap-datepicker.js"></script>
 	<script>
 	$('.date').datepicker({
 		format: 'dd-mm-yyyy',

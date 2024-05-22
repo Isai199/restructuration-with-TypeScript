@@ -12,9 +12,11 @@ select.addEventListener('change', () => {
     fetchData(seletedNumber);
 });
 
-document.addEventListener('DOMContentLoaded', () => { // TODO: Checar los tipos de eventos para docuemnt
+document.addEventListener('DOMContentLoaded', () => { 
     initialize();
 });
+
+// TODO: crear scripts separados(initialize y fetchData), para mayor coherencia en los nombres
 
 function initialize() {
     const urlResposne = urlServer + 'connection.php';

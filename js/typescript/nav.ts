@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
 // }
 
-
+// TODO: las funcionalidad de las url es estatica, tiene errores al cliquear el mismo link
 
 function createNav() {
     const nav = document.querySelector('#main-nav') as HTMLElement;
@@ -44,8 +44,8 @@ function createNav() {
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav ">
-                <li id="itemIndex" class="active"><a href="index.html">Lista de empleados</a></li>
-                <li id="itemAdd"><a href="add.php">Agregar datos</a></li>
+                <li id="itemIndex" class="active"><a href="../../">Lista de empleados</a></li>
+                <li id="itemAdd"><a href="./html/add/">Agregar datos</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>`;
