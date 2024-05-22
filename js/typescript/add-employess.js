@@ -16,15 +16,15 @@ form.addEventListener('submit', function (e) {
     formData.forEach(function (value, key) {
         data[key] = value;
     });
-    jsonResposne.body = data;
-    console.log('Json:', jsonResposne);
+    jsonResposne.body = JSON.stringify(data);
     fetch(urlResposne, jsonResposne).then(function (response) {
         if (!response.ok) {
             throw new Error("Network response was not ok " + response.statusText);
         }
         return response.json();
     }).then(function (data) {
-        console.log(data);
+        // TODO: mostrar un mensaje de completado
+        window.location.href = 'http://localhost/js-to-ts-proyect/proyecto-web-empleados/';
     }).catch(function (error) {
         console.error('There was a problem whith the fetch operation:', error);
     });

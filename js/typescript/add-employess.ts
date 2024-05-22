@@ -1,3 +1,4 @@
+// TODO: implementar tipado
 import { RequestData } from './types'
 
 const form = document.querySelector('form') as HTMLFormElement;
@@ -21,9 +22,7 @@ form.addEventListener('submit', (e) => {
         data[key] = value;
     });
 
-    jsonResposne.body = data;
-
-    console.log('Json:', jsonResposne);
+    jsonResposne.body = JSON.stringify(data);
 
     fetch(urlResposne, jsonResposne).then((response) => {
         if (!response.ok) {
@@ -32,7 +31,8 @@ form.addEventListener('submit', (e) => {
         
         return response.json();
     }).then((data) => {
-        console.log(data);
+        // TODO: mostrar un mensaje de completado
+        window.location.href = 'http://localhost/js-to-ts-proyect/proyecto-web-empleados/';
     }).catch( error => {
         console.error('There was a problem whith the fetch operation:', error);
     });

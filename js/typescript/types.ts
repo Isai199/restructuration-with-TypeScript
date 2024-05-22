@@ -1,3 +1,5 @@
+// TODO: a todos los archivos ts les falta validar los tipos
+
 export type Employes = [{
     id: string,
     firstname: string,

@@ -22,15 +22,28 @@
 
             $query = $conn -> prepare($sql);
             $query -> execute();
-            $results = $query -> fetchAll(PDO::FETCH_OBJ);
 
-            $response = [
-                'status' => 'success',
-                'results' => $results,  
-            ];
-            
-            echo json_encode($response);
-            exit;
+            $results = $query -> fetchAll(PDO::FETCH_OBJ);
+            if ($query->rowCount() > 0) {
+                
+    
+                $response = [
+                    'status' => 'success',
+                    'results' => $results,  
+                ];
+                
+                echo json_encode($response);
+                exit;
+            } else {
+    
+                $response = [
+                    'status' => 'error',
+                    'message' => 'No records found'  
+                ];
+                
+                echo json_encode($response);
+                exit;
+            }
             
         } catch (PDOException $e) {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);

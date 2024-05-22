@@ -8,8 +8,8 @@
 		<title>Datos de empleados</title>
 		
 		<!-- Bootstrap -->
-		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<link href="css/style_nav.css" rel="stylesheet">
+		<link href="./css/bootstrap.min.css" rel="stylesheet">
+		<link href="./css/style_nav.css" rel="stylesheet">
 		
 		<style>
 			.content {
@@ -23,9 +23,8 @@
 		</style>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" defer></script>
-		<!-- <script src="js/bootstrap.min.js" defer></script> -->
 		<script src="./js/typescript/nav.js" defer></script>
-		<script src="js/typescript/show-employess.js" defer></script>
+		<script src="./js/typescript/show-employess.js" defer></script>
 		
 	</head>
 <body>
@@ -35,19 +34,9 @@
 		<div class="content">
 			<h2>Lista de empleados</h2>
 			<hr />
-
-			
-						 <div class="alert alert-success alert-dismissable" style="display:none;"> </div>
-
-						<!--<div 
-						class="alert alert-danger alert-dismissable" 
-						style="display:none;">
-							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-						 	Error, no se pudo eliminar los datos.
-						</div>-->
 			<form class="form-inline">
 				<div class="form-group">
-					<select>
+					<select class="form-control">
 						<option>Filtros de datos de empleados</option>
 						<option value="1">Fijo</option>
 						<option value="2">Contratado</option>
