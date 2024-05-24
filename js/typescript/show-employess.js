@@ -11,6 +11,7 @@ select.addEventListener('change', function () {
 document.addEventListener('DOMContentLoaded', function () {
     initialize();
 });
+// TODO: crear scripts separados(initialize y fetchData), para mayor coherencia en los nombres
 function initialize() {
     var urlResposne = urlServer + 'connection.php';
     var jsonResposne = {
@@ -46,7 +47,7 @@ function fetchData(filter) {
         }
         return response.json();
     }).then(function (data) {
-        showData(data.results); // TODO: regresa un error de la base de datos, y no ejecuta esta funcion
+        showData(data.results);
     }).catch(function (error) {
         console.error('There was a problem whith the fetch operation:', error);
     });
@@ -124,5 +125,18 @@ function showData(employess) {
             table.appendChild(tableBody);
             number++;
         }
+        loadExternalScript('./js/typescript/delete-employee.js');
     }
+}
+function loadExternalScript(src) {
+    var script = document.createElement('script');
+    script.src = src;
+    script.async = true;
+    script.addEventListener('load', function () {
+        console.log("Script ".concat(src, " loaded and executed."));
+    });
+    script.addEventListener('error', function () {
+        console.error("Error loading script ".concat(src));
+    });
+    document.head.appendChild(script);
 }

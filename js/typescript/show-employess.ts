@@ -157,8 +157,25 @@ function showData(employess: Employes) {
     
             number++;
         }
+
+        loadExternalScript('./js/typescript/delete-employee.js');
        
     }
 
 
+}
+
+function loadExternalScript(src: string) {
+    const script = document.createElement('script');
+    script.src = src;
+    script.async = true;
+    script.addEventListener('load', () => {
+        console.log(`Script ${src} loaded and executed.`);
+    });
+
+    script.addEventListener('error', () => {
+        console.error(`Error loading script ${src}`);
+    });
+
+    document.head.appendChild(script);
 }

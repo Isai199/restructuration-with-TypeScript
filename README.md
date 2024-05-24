@@ -15,3 +15,4 @@
 ## NOTAS
 - **tener cuidado con php**, y hacer peticiones a un archivo php, que incluye(`include()`) otro script con echos y jsons.
     > Para la conexion separar la conexion de la respuesta(dos archivos diferentes).
+- addInfoXml.php y bds_insert.php de momento no se ocupan, es para basarme en eso cuando implemente lo del xml.
