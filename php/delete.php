@@ -23,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             $id = $data['idEmployee'];
 
-            // TODO: esta consulta no elimina al empleado
             $query = "DELETE FROM tbl_employees WHERE id =:id";
             $sql = $conn->prepare($query);
             $sql->bindParam(':id', $id, PDO::PARAM_INT);

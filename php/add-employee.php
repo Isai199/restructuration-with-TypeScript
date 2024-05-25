@@ -1,18 +1,5 @@
 <?php 
 
-
-// TODO: no acepta el objeto de entrada o no lo reconoce
-
-
-// address: "dafafa"
-// birthday: "21-05-2024"
-// birtplace: "fsffsd"
-// firstname: "fsds"
-// job: "rwer"
-// lastname: "fdssfd"
-// phone: "3232424234"
-// state: "2"
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         include('./db-connection.php');
