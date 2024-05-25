@@ -38,7 +38,7 @@
     
                 $response = [
                     'status' => 'error',
-                    'message' => 'No records found'  
+                    'message' => []  
                 ];
                 
                 echo json_encode($response);

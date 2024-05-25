@@ -24,13 +24,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $data['idEmployee'];
 
             // TODO: esta consulta no elimina al empleado
-            $consulta = "DELETE FROM tbl_employees WHERE id =:id";
-            $sql = $conn-> prepare($consulta);
-            $sql -> bindParam(':id', $id, PDO::PARAM_INT);
-            $id = trim($id);
-            
-            echo json_encode(['status' => 'success', 'message' => 'Data was deleted']);
-            exit;
+            $query = "DELETE FROM tbl_employees WHERE id =:id";
+            $sql = $conn->prepare($query);
+            $sql->bindParam(':id', $id, PDO::PARAM_INT);
+            $sql->execute();
+
+
+            if ($sql->rowCount() > 0) {
+                echo json_encode(['status' => 'success', 'message' => 'Record deleted successfully']);
+                exit;
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'No records found to delete']);
+                exit;
+            }
+                
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Date not provided']);
             exit;
